@@ -12,6 +12,7 @@ import java.util.List;
 @RequestMapping("/task")
 public class TaskController {
     private final TaskService taskService;
+
     @GetMapping
     public ResponseEntity<List<TaskResponseDto>> getAllEmployee(){
         return ResponseEntity.ok().body(taskService.getAllTasks());
