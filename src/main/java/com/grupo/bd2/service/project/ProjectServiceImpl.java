@@ -1,14 +1,18 @@
 package com.grupo.bd2.service.project;
 
+import com.grupo.bd2.util.projectReportGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo.bd2.dto.ProjectResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
 import com.grupo.bd2.model.Project;
 import com.grupo.bd2.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
+
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Service
@@ -36,4 +40,16 @@ public class ProjectServiceImpl implements ProjectService{
         Project savedProject = projectRepository.save(project);
         return objectMapper.convertValue(savedProject, ProjectResponseDto.class);
     }
+
+    @Override
+    public byte[] exportPdf() throws JRException, FileNotFoundException {
+        projectReportGenerator reportGenerator = new projectReportGenerator();
+        return reportGenerator.exportToPdf(projectRepository.findAll());
+    }
+
+    @Override
+    public byte[] exportXls() throws JRException, FileNotFoundException {
+    projectReportGenerator reportGenerator = new projectReportGenerator();
+    return reportGenerator.exportToXls(projectRepository.findAll());
+}
 }
