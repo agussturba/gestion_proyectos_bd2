@@ -1,4 +1,5 @@
 package com.grupo.bd2.controller;
+import com.grupo.bd2.dto.TaskRequestDto;
 import com.grupo.bd2.dto.TaskResponseDto;
 import com.grupo.bd2.model.Task;
 import com.grupo.bd2.service.task.TaskService;
@@ -23,11 +24,11 @@ public class TaskController {
         return ResponseEntity.ok().body(taskService.getTaskById(id));
     }
     @PostMapping
-    public ResponseEntity<TaskResponseDto> saveEmployee(@RequestBody Task task){
+    public ResponseEntity<TaskResponseDto> saveEmployee(@RequestBody TaskRequestDto task){
         return ResponseEntity.ok().body(taskService.createOrUpdateTask(task));
     }
     @PutMapping
-    public ResponseEntity<TaskResponseDto> updateEmployee(@RequestBody Task task){
+    public ResponseEntity<TaskResponseDto> updateEmployee(@RequestBody TaskRequestDto task){
         return ResponseEntity.ok().body(taskService.createOrUpdateTask(task));
     }
 }
