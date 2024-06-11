@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -35,5 +36,18 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto createOrUpdateComment(Comment comment) {
         Comment savedComment = commentRepository.save(comment);
         return objectMapper.convertValue(savedComment, CommentResponseDto.class);
+    }
+    @Override
+    public List<CommentResponseDto> getCommentsByTaskId(String taskId) {
+        return commentRepository.findByTaskId(taskId).stream()
+                .map(comment -> objectMapper.convertValue(comment, CommentResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CommentResponseDto> getCommentsByTaskIdAndEmployeeId(String taskId, String employeeId) {
+        return commentRepository.findByTaskIdAndEmployeeId(taskId, employeeId).stream()
+                .map(comment -> objectMapper.convertValue(comment, CommentResponseDto.class))
+                .collect(Collectors.toList());
     }
 }

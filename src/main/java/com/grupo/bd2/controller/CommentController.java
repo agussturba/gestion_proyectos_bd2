@@ -33,4 +33,16 @@ public class CommentController {
         CommentResponseDto comment = commentService.getCommentById(id);
         return ResponseEntity.ok(comment);
     }
+
+    @GetMapping("/task/{taskId}")
+    public ResponseEntity<List<CommentResponseDto>> getCommentsByTaskId(@PathVariable String taskId) {
+        List<CommentResponseDto> comments = commentService.getCommentsByTaskId(taskId);
+        return ResponseEntity.ok(comments);
+    }
+
+    @GetMapping("/task/{taskId}/employee/{employeeId}")
+    public ResponseEntity<List<CommentResponseDto>> getCommentsByTaskIdAndEmployeeId(@PathVariable String taskId, @PathVariable String employeeId) {
+        List<CommentResponseDto> comments = commentService.getCommentsByTaskIdAndEmployeeId(taskId, employeeId);
+        return ResponseEntity.ok(comments);
+    }
 }
