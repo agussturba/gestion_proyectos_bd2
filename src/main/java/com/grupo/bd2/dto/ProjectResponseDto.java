@@ -1,5 +1,6 @@
 package com.grupo.bd2.dto;
 
+
 import lombok.Builder;
 
 import java.time.LocalDate;
