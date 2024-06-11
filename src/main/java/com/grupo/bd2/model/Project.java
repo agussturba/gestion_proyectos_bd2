@@ -1,11 +1,12 @@
 package com.grupo.bd2.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 public class Project {
-    @jakarta.persistence.Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
     String description;
@@ -25,4 +27,12 @@ public class Project {
     @OneToMany
     List<Task> task;
 
+    public Project(String name, String description, LocalDate startDate, LocalDate endDate, Boolean isActive, List<Task> task) {
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isActive = isActive;
+        this.task = task;
+    }
 }

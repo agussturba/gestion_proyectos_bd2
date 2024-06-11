@@ -1,5 +1,6 @@
 package com.grupo.bd2.controller;
 
+import com.grupo.bd2.dto.ProjectRequestDto;
 import com.grupo.bd2.dto.ProjectResponseDto;
 import com.grupo.bd2.model.Project;
 import com.grupo.bd2.service.project.ProjectService;
@@ -25,11 +26,11 @@ public class ProjectController {
         return ResponseEntity.ok().body(projectService.getProjectById(id));
     }
     @PostMapping
-    public ResponseEntity<ProjectResponseDto> saveProject(@RequestBody Project project){
+    public ResponseEntity<ProjectResponseDto> saveProject(@RequestBody ProjectRequestDto project){
         return ResponseEntity.ok().body(projectService.createOrUpdateProject(project));
     }
     @PutMapping
-    public ResponseEntity<ProjectResponseDto> updateProject(@RequestBody Project project){
+    public ResponseEntity<ProjectResponseDto> updateProject(@RequestBody ProjectRequestDto project){
         return ResponseEntity.ok().body(projectService.createOrUpdateProject(project));
     }
 }

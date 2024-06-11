@@ -1,17 +1,16 @@
 package com.grupo.bd2.dto;
 
-import com.grupo.bd2.model.Employee;
-import com.grupo.bd2.model.Task;
+
 import com.grupo.bd2.model.TaskState;
+import lombok.Builder;
+
 import java.util.List;
 
-
-    public class TaskResponseDto {
-    Long id;
-    String description;
-    TaskState taskState;
-    Task fatherTask;
-    List<Employee> assignedEmployees;
-    Integer storyPoints;
-
-}
+@Builder
+public record TaskResponseDto(
+    Long id,
+    String description,
+    TaskState taskState,
+    List<Long> assignedEmployees,
+    Long fatherTask,
+    Integer storyPoints){}
