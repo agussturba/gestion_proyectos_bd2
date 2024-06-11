@@ -1,5 +1,6 @@
 package com.grupo.bd2.controller;
 
+import com.grupo.bd2.dto.ActivityRequestDto;
 import com.grupo.bd2.dto.ActivityResponseDto;
 import com.grupo.bd2.model.Activity;
 import com.grupo.bd2.service.activity.ActivityService;
@@ -10,14 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/activities")
+@RequestMapping("/activity")
 @AllArgsConstructor
 public class ActivityController {
 
     private final ActivityService activityService;
 
     @PostMapping
-    public ResponseEntity<ActivityResponseDto> createActivity(@RequestBody Activity activity) {
+    public ResponseEntity<ActivityResponseDto> createActivity(@RequestBody ActivityRequestDto activity) {
+        ActivityResponseDto newActivity = activityService.createOrUpdateActivity(activity);
+        return ResponseEntity.ok(newActivity);
+    }
+
+    @PutMapping
+    public ResponseEntity<ActivityResponseDto> updateActivity(@RequestBody ActivityRequestDto activity) {
         ActivityResponseDto newActivity = activityService.createOrUpdateActivity(activity);
         return ResponseEntity.ok(newActivity);
     }

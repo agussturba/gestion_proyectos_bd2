@@ -3,7 +3,7 @@ package com.grupo.bd2.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Document(collection = "comentarios")
 public class Comment {
@@ -12,6 +12,6 @@ public class Comment {
     private Task task;
     private Employee employee;
     private String comment;
-    private Date date;
+    private LocalDate date;
 
 }

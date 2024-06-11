@@ -1,6 +1,7 @@
 package com.grupo.bd2.service.activity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grupo.bd2.dto.ActivityRequestDto;
 import com.grupo.bd2.dto.ActivityResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
 import com.grupo.bd2.model.Activity;
@@ -32,7 +33,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public ActivityResponseDto createOrUpdateActivity(Activity activity) {
+    public ActivityResponseDto createOrUpdateActivity(ActivityRequestDto activity) {
         Activity savedActivity = activityRepository.save(activity);
         return objectMapper.convertValue(savedActivity, ActivityResponseDto.class);
     }

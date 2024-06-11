@@ -1,5 +1,6 @@
 package com.grupo.bd2.controller;
 
+import com.grupo.bd2.dto.CommentRequestDto;
 import com.grupo.bd2.dto.CommentResponseDto;
 import com.grupo.bd2.model.Comment;
 import com.grupo.bd2.service.comment.CommentService;
@@ -10,14 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/comment")
 @AllArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<CommentResponseDto> createComment(@RequestBody Comment comment) {
+    public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto comment) {
+        CommentResponseDto newComment = commentService.createOrUpdateComment(comment);
+        return ResponseEntity.ok(newComment);
+    }
+
+    @PutMapping
+    public ResponseEntity<CommentResponseDto> updateComment(@RequestBody CommentRequestDto comment) {
         CommentResponseDto newComment = commentService.createOrUpdateComment(comment);
         return ResponseEntity.ok(newComment);
     }

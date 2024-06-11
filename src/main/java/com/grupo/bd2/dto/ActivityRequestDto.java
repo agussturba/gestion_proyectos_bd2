@@ -2,7 +2,7 @@ package com.grupo.bd2.dto;
 
 import java.time.LocalDate;
 
-public record ActivityResponseDto(
+public record ActivityRequestDto(
         Long id,
         Long projectId,
         Long taskId,

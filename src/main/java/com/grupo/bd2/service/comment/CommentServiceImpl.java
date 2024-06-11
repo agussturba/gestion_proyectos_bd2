@@ -1,6 +1,7 @@
 package com.grupo.bd2.service.comment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grupo.bd2.dto.CommentRequestDto;
 import com.grupo.bd2.dto.CommentResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
 import com.grupo.bd2.model.Comment;
@@ -33,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentResponseDto createOrUpdateComment(Comment comment) {
+    public CommentResponseDto createOrUpdateComment(CommentRequestDto comment) {
         Comment savedComment = commentRepository.save(comment);
         return objectMapper.convertValue(savedComment, CommentResponseDto.class);
     }

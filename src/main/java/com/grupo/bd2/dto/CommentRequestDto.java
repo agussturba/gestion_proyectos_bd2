@@ -2,7 +2,7 @@ package com.grupo.bd2.dto;
 
 import java.time.LocalDate;
 
-public record CommentResponseDto(
+public record CommentRequestDto(
     Long id,
     Long taskId,
     Long employeeId,
