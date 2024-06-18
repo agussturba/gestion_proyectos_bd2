@@ -36,9 +36,9 @@ public class projectReportGenerator {
     private JasperPrint getReport(List<Project> list) throws FileNotFoundException, JRException {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("projectsData", new JRBeanCollectionDataSource(list));
-
+        
         JasperPrint report = JasperFillManager.fillReport(JasperCompileManager.compileReport(
-                ResourceUtils.getFile("classpath:projectReport.jrxml")
+                ResourceUtils.getFile("src/main/resources/projectReport.jrxml")
                         .getAbsolutePath()), params, new JREmptyDataSource());
 
         return report;
