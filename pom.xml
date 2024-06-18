@@ -73,6 +73,20 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Dependencias para descarga de PDF y Excel -->
+		
+		<dependency> <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.21.3</version>
+		</dependency>
+		<dependency> <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.2.5</version>
+		</dependency>
+
 		<dependency>
         	<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-starter-data-mongodb</artifactId>
