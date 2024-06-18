@@ -11,6 +11,7 @@ public record TaskRequestDto(
     Long fatherTaskId,
     Integer storyPoints,
     TaskState taskState,
-    LocalDate startDate
+    LocalDate startDate,
+    LocalDate endDate
 ) {
 }
