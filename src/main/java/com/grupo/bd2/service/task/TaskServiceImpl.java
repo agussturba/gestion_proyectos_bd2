@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponseDto createOrUpdateTask(TaskRequestDto task) {
        List<Employee> employees = task.employeesId().stream().map(id -> employeeRepository.findById(id).orElseThrow(NotFoundException::new)).toList();
        Task fatherTask = task.fatherTaskId() != null ? taskRepository.findById(task.fatherTaskId()).orElseThrow(NotFoundException::new) : null;
-       Task task1 = new Task(task.description(), task.taskState(), fatherTask, employees, LocalDate.now(),task.startDate(),task.storyPoints());
+       Task task1 = new Task(task.description(), task.taskState(), fatherTask, employees, LocalDate.now(),task.startDate(),task.endDate(),task.storyPoints());
        return convertToDto(taskRepository.save(task1));
      }
 
