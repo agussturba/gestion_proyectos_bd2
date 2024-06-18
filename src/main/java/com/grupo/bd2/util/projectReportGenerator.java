@@ -40,7 +40,6 @@ public class projectReportGenerator {
         JasperPrint report = JasperFillManager.fillReport(JasperCompileManager.compileReport(
                 ResourceUtils.getFile("src/main/resources/projectReport.jrxml")
                         .getAbsolutePath()), params, new JREmptyDataSource());
-
         return report;
     }
 }
