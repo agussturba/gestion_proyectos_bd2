@@ -1,21 +1,16 @@
 package com.grupo.bd2.dto;
 
-
 import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.List;
-
 @Builder
-public record ProjectResponseDto(
-        Long id,
+public record ProjectRequestDto(
         String name,
         String description,
-        Boolean isActive,
         LocalDate startDate,
         LocalDate endDate,
-        String createdAt,
-        String updatedAt,
-        List<Long> tasksIds
+        Boolean isActive,
+        List<Long> taskIds
 ) {
 }

@@ -5,7 +5,7 @@ import lombok.Builder;
 @Builder
 public record DocumentDto(
         String name,
-        String id
+        Long id
 ) {
 
 }

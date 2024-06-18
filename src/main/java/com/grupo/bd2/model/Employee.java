@@ -2,7 +2,6 @@ package com.grupo.bd2.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
