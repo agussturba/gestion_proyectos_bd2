@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -33,13 +32,13 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto getCommentById(String id) {
         return commentRepository.findById(id)
                 .map(this::convertToDto)
-                .orElseThrow(NotFoundException::new);
+                .orElseThrow(() -> new NotFoundException("Comment not found"));
     }
 
     @Override
     public CommentResponseDto createOrUpdateComment(CommentRequestDto comment) {
-        var task =taskRepository.findById(comment.taskId()).orElseThrow(NotFoundException::new);
-        var employee = employeeRepository.findById(comment.employeeId()).orElseThrow(NotFoundException::new);
+        var task = taskRepository.findById(comment.taskId()).orElseThrow(() -> new NotFoundException("Task not found"));
+        var employee = employeeRepository.findById(comment.employeeId()).orElseThrow(() -> new NotFoundException("Employee not found"));
         Comment comment1 = new Comment(task, employee, comment.content(), comment.createdAt());
         return convertToDto(commentRepository.save(comment1));
     }
@@ -47,14 +46,14 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentResponseDto> getCommentsByTaskId(String taskId) {
         return commentRepository.findByTaskId(taskId).stream()
                 .map(this::convertToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public List<CommentResponseDto> getCommentsByTaskIdAndEmployeeId(String taskId, String employeeId) {
         return commentRepository.findByTaskIdAndEmployeeId(taskId, employeeId).stream()
                 .map(this::convertToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
     private CommentResponseDto convertToDto(Comment comment) {
         return CommentResponseDto

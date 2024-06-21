@@ -40,22 +40,22 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponseDto getTaskById(Long id) {
         return taskRepository.findById(id)
                 .map(this::convertToDto)
-                .orElseThrow(NotFoundException::new);}
+                .orElseThrow(()-> new NotFoundException("Task not found"));}
 
     @Override
     public TaskResponseDto createOrUpdateTask(TaskRequestDto task) {
-       Set<Employee> employees = task.employeesId().stream().map(id -> employeeRepository.findById(id).orElseThrow(NotFoundException::new)).collect(Collectors.toSet());
-       Task fatherTask = task.fatherTaskId() != null ? taskRepository.findById(task.fatherTaskId()).orElseThrow(NotFoundException::new) : null;
+       Set<Employee> employees = task.employeesId().stream().map(id -> employeeRepository.findById(id).orElseThrow(() -> new NotFoundException("Employee not found"))).collect(Collectors.toSet());
+       Task fatherTask = task.fatherTaskId() != null ? taskRepository.findById(task.fatherTaskId()).orElseThrow(() -> new NotFoundException("Father task not found")) : null;
        Task task1 = new Task(task.description(), task.taskState(), fatherTask, employees, LocalDate.now(),task.startDate(),task.endDate(),task.storyPoints(), task.necessarySkills());
        return convertToDto(taskRepository.save(task1));
      }
 
     @Override
     public TaskResponseDto asignEmployeeToTask(Long taskId,Long employeeId) {
-        Task task = taskRepository.findById(taskId).orElseThrow(NotFoundException::new);
-        Employee futureAsignedEmployee = employeeRepository.findById(employeeId).orElseThrow(NotFoundException::new);
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new NotFoundException("Task not found"));
+        Employee futureAsignedEmployee = employeeRepository.findById(employeeId).orElseThrow(() -> new NotFoundException("Employee not found"));
         if (task.getAssignedEmployees().stream().anyMatch(employee -> employee.equals(futureAsignedEmployee))){
-            throw new EmployeeIsAlreadyAssignedException();
+            throw new EmployeeIsAlreadyAssignedException("Employee is already assigned");
         }
         task.addEmployee(futureAsignedEmployee);
         taskRepository.save(task);
@@ -64,7 +64,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskResponseDto automaticalyAsignEmployeeToTask(Long taskId) {
-        Task task = taskRepository.findById(taskId).orElseThrow(NotFoundException::new);
+        Task task = taskRepository.findById(taskId).orElseThrow(()-> new NotFoundException("Task not found"));
         Project project = projectRepository.findByTask(task);
         List<Employee> availableEmployees = project
                 .getEmployees()
@@ -112,7 +112,7 @@ public class TaskServiceImpl implements TaskService {
             }
         }
         if (bestEmployee == null) {
-            throw new BestEmployeeIsAlreadyAssigned();
+            throw new BestEmployeeIsAlreadyAssigned("The bestEmployee is alreadyAssigned on the task");
         }
         return bestEmployee;
     }

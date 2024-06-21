@@ -36,14 +36,14 @@ public class ActivityServiceImpl implements ActivityService {
     public ActivityResponseDto getActivityById(String id) {
         return activityRepository.findById(id)
                 .map(this::convertToDto)
-                .orElseThrow(NotFoundException::new);
+                .orElseThrow(() -> new NotFoundException("Activity not Found"));
     }
 
     @Override
     public ActivityResponseDto createOrUpdateActivity(ActivityRequestDto activity) {
-        Task task = taskRepository.findById(activity.taskId()).orElseThrow(NotFoundException::new);
-        Project project = projectRepository.findById(activity.projectId()).orElseThrow(NotFoundException::new);
-        Employee employee = employeeRepository.findById(activity.employeeId()).orElseThrow(NotFoundException::new);
+        Task task = taskRepository.findById(activity.taskId()).orElseThrow(() -> new NotFoundException("Task not found"));
+        Project project = projectRepository.findById(activity.projectId()).orElseThrow(() -> new NotFoundException("Project not found"));
+        Employee employee = employeeRepository.findById(activity.employeeId()).orElseThrow(() -> new NotFoundException("Employee not found"));
         Activity activity1 = new Activity(employee, project, task, activity.description());
         return convertToDto(activityRepository.save(activity1));
     }

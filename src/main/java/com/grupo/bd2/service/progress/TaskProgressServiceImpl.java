@@ -4,7 +4,6 @@ import com.grupo.bd2.dto.TaskProgressResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
 import com.grupo.bd2.model.Task;
 import com.grupo.bd2.model.TaskProgress;
-import com.grupo.bd2.model.TaskState;
 import com.grupo.bd2.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import java.time.temporal.ChronoUnit;
 
 import static com.grupo.bd2.model.TaskState.DONE;
 import static java.util.Objects.isNull;
-import static org.springframework.data.util.NullableUtils.isNonNull;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +21,7 @@ public class TaskProgressServiceImpl implements TaskProgressService{
 
     @Override
     public TaskProgressResponseDto getProgressById(Long id) {
-        final var task = taskRepository.findById(id).orElseThrow(NotFoundException::new);
+        final var task = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found"));
         final var subtasks = taskRepository.findByFatherTask(task);
         if (subtasks.isEmpty()) {
             return convertToDto(TaskProgress

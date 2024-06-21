@@ -40,13 +40,13 @@ public class ProjectServiceImpl implements ProjectService{
     public ProjectResponseDto getProjectById(Long id) {
         return projectRepository.findById(id)
                 .map(this::convertToDto)
-                .orElseThrow(NotFoundException::new);
+                .orElseThrow(() -> new NotFoundException("Project not found"));
     }
 
     @Override
     public ProjectResponseDto createOrUpdateProject(ProjectRequestDto project) {
-        List<Task> tasks = project.taskIds().stream().map(taskId -> taskRepository.findById(taskId).orElseThrow(NotFoundException::new)).toList();
-        List<Employee> employees = project.employeesIds().stream().map(employeeId -> employeeRepository.findById(employeeId).orElseThrow(NotFoundException::new)).toList();
+        List<Task> tasks = project.taskIds().stream().map(taskId -> taskRepository.findById(taskId).orElseThrow(() -> new NotFoundException("Task not Found"))).toList();
+        List<Employee> employees = project.employeesIds().stream().map(employeeId -> employeeRepository.findById(employeeId).orElseThrow(() -> new NotFoundException("Employee not found"))).toList();
         Project savedProject = new Project(project.name(), project.description(), project.startDate(), project.endDate(), project.isActive(), tasks,employees);
         return convertToDto(projectRepository.save(savedProject));
     }

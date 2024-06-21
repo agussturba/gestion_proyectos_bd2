@@ -2,12 +2,9 @@ package com.grupo.bd2.service.employee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo.bd2.dto.EmployeeResponseDto;
-import com.grupo.bd2.dto.ProjectResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
 import com.grupo.bd2.model.Employee;
-import com.grupo.bd2.model.Project;
 import com.grupo.bd2.repository.EmployeeRepository;
-import com.grupo.bd2.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     public EmployeeResponseDto getEmployeeById(Long id) {
         return employeeRepository.findById(id)
                 .map(project -> objectMapper.convertValue(project,EmployeeResponseDto.class))
-                .orElseThrow(NotFoundException::new);    }
+                .orElseThrow(() -> new NotFoundException("Employee not found"));    }
 
     @Override
     public EmployeeResponseDto createOrUpdateEmployee(Employee employee) {
