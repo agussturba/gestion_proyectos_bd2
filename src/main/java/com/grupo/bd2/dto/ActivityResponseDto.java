@@ -5,11 +5,10 @@ import lombok.Builder;
 import java.time.LocalDate;
 @Builder
 public record ActivityResponseDto(
-        Long id,
+        String id,
         Long projectId,
         Long taskId,
         Long employeeId,
-        String activityType,
         String description,
         LocalDate dateTime
 ) {

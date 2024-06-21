@@ -14,6 +14,7 @@ import com.grupo.bd2.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -41,15 +42,33 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public ActivityResponseDto createOrUpdateActivity(ActivityRequestDto activity) {
-        Task task = taskRepository.findById(activity.taskId()).orElseThrow(() -> new NotFoundException("Task not found"));
-        Project project = projectRepository.findById(activity.projectId()).orElseThrow(() -> new NotFoundException("Project not found"));
+        Task task = null;
+        Project project = null;
+        if (activity.taskId() != null) {
+            task = taskRepository.findById(activity.taskId()).orElseThrow(() -> new NotFoundException("Task not found"));
+        }
+        if (activity.projectId() != null){
+            project = projectRepository.findById(activity.projectId()).orElseThrow(() -> new NotFoundException("Project not found"));
+        }
+
         Employee employee = employeeRepository.findById(activity.employeeId()).orElseThrow(() -> new NotFoundException("Employee not found"));
-        Activity activity1 = new Activity(employee, project, task, activity.description());
+        Activity activity1 = new Activity(employee, project, task, activity.description(), LocalDate.now());
+        if(activity.id() != null){
+            activityRepository.findById(activity.id()).orElseThrow(() -> new NotFoundException("Activity not found"));
+            activity1.setId(activity.id());
+        }
         return convertToDto(activityRepository.save(activity1));
     }
     private ActivityResponseDto convertToDto(Activity activity) {
+        Task task = activity.getTask();
+        Project project = activity.getProject();
+
         return ActivityResponseDto
                 .builder()
+                .projectId(project == null ? null : project.getId())
+                .employeeId(activity.getEmployee().getId())
+                .taskId(task == null ? null : task.getId())
+                .dateTime(activity.getCreationDate())
                 .description(activity.getDescription())
                 .id(activity.getId())
                 .build();
