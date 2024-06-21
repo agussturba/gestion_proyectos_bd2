@@ -26,13 +26,16 @@ public class Project {
     Boolean isActive;
     @OneToMany
     List<Task> task;
+    @OneToMany
+    List<Employee> employees;
 
-    public Project(String name, String description, LocalDate startDate, LocalDate endDate, Boolean isActive, List<Task> task) {
+    public Project(String name, String description, LocalDate startDate, LocalDate endDate, Boolean isActive, List<Task> task, List<Employee> employees) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.isActive = isActive;
         this.task = task;
+        this.employees = employees;
     }
 }

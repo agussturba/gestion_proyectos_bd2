@@ -11,6 +11,7 @@ public record ProjectRequestDto(
         LocalDate startDate,
         LocalDate endDate,
         Boolean isActive,
-        List<Long> taskIds
+        List<Long> taskIds,
+        List<Long> employeesIds
 ) {
 }

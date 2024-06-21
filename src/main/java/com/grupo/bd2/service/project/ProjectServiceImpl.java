@@ -1,5 +1,7 @@
 package com.grupo.bd2.service.project;
 
+import com.grupo.bd2.model.Employee;
+import com.grupo.bd2.repository.EmployeeRepository;
 import com.grupo.bd2.util.projectReportGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo.bd2.dto.ProjectRequestDto;
@@ -25,6 +27,7 @@ import static java.util.Objects.isNull;
 public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public List<ProjectResponseDto> getAllProjects() {
@@ -43,8 +46,9 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public ProjectResponseDto createOrUpdateProject(ProjectRequestDto project) {
         List<Task> tasks = project.taskIds().stream().map(taskId -> taskRepository.findById(taskId).orElseThrow(NotFoundException::new)).toList();
-        Project project1 = new Project(project.name(), project.description(), project.startDate(), project.endDate(), project.isActive(), tasks);
-        return convertToDto(projectRepository.save(project1));
+        List<Employee> employees = project.employeesIds().stream().map(employeeId -> employeeRepository.findById(employeeId).orElseThrow(NotFoundException::new)).toList();
+        Project savedProject = new Project(project.name(), project.description(), project.startDate(), project.endDate(), project.isActive(), tasks,employees);
+        return convertToDto(projectRepository.save(savedProject));
     }
     private ProjectResponseDto convertToDto(Project project) {
         return ProjectResponseDto

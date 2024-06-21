@@ -12,6 +12,7 @@ public record TaskRequestDto(
     Integer storyPoints,
     TaskState taskState,
     LocalDate startDate,
-    LocalDate endDate
+    LocalDate endDate,
+    String necessarySkills
 ) {
 }

@@ -1,12 +1,10 @@
 package com.grupo.bd2.service.comment;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo.bd2.dto.CommentRequestDto;
 import com.grupo.bd2.dto.CommentResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
 import com.grupo.bd2.model.Comment;
-import com.grupo.bd2.model.Employee;
-import com.grupo.bd2.model.Task;
+
 import com.grupo.bd2.repository.CommentRepository;
 import com.grupo.bd2.repository.EmployeeRepository;
 import com.grupo.bd2.repository.TaskRepository;

@@ -1,19 +1,20 @@
 package com.grupo.bd2.service.progress;
 
-import com.grupo.bd2.dto.TaskProgressRequestDto;
 import com.grupo.bd2.dto.TaskProgressResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
 import com.grupo.bd2.model.Task;
 import com.grupo.bd2.model.TaskProgress;
 import com.grupo.bd2.model.TaskState;
-import com.grupo.bd2.repository.TaskProgressRepository;
 import com.grupo.bd2.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
+
+import static com.grupo.bd2.model.TaskState.DONE;
+import static java.util.Objects.isNull;
+import static org.springframework.data.util.NullableUtils.isNonNull;
 
 @Service
 @AllArgsConstructor
@@ -32,8 +33,8 @@ public class TaskProgressServiceImpl implements TaskProgressService{
                     .timeWorkedOn(tiempoTrabajado(task))
                     .build());
         }
-        Double totalTrabajado = 0.0;
-        Double totalTiempoCompletado = 0.0;
+        var totalTrabajado = 0.0;
+        var totalTiempoCompletado = 0.0;
         for (Task subtask:subtasks){
             totalTiempoCompletado += tiempoTrabajado(subtask);
             totalTrabajado += procentajeCompletado(subtask);
@@ -48,20 +49,24 @@ public class TaskProgressServiceImpl implements TaskProgressService{
     }
 
     private Double procentajeCompletado(Task task){
-        if (TaskState.DONE.equals(task.getTaskState())){
+        if (DONE.equals(task.getTaskState())){
             return 100.0;
         }
         return 0.0;
     }
 
     private Double tiempoTrabajado(Task task){
-        if (task.getStartDate() == null){
+        LocalDate startDate = task.getStartDate();
+        LocalDate endDate = task.getEndDate();
+        if (isNull(startDate)){
             return 0.0;
         }
-        else if (task.getEndDate() != null){
-            return (double) ChronoUnit.HOURS.between(task.getStartDate(), task.getEndDate());
+        else {
+            if (isNull(endDate)){
+                return (double) ChronoUnit.HOURS.between(startDate, endDate);
+            }
         }
-        return (double) ChronoUnit.HOURS.between(task.getStartDate(),LocalDate.now());
+        return (double) ChronoUnit.HOURS.between(startDate,LocalDate.now());
     }
 
     private TaskProgressResponseDto convertToDto(TaskProgress taskProgress) {

@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
@@ -21,13 +22,14 @@ public class Task {
     @OneToOne
     Task fatherTask;
     @ManyToMany
-    List<Employee> assignedEmployees;
+    Set<Employee> assignedEmployees;
     LocalDate createDate;
     LocalDate startDate;
     LocalDate endDate;
     Integer storyPoints;
+    String necessarySkills;//Se dividen por , y su formato seria java,python,etc
 
-    public Task(String description, TaskState taskState, Task fatherTask, List<Employee> assignedEmployees, LocalDate createDate, LocalDate startDate, LocalDate endDate , Integer storyPoints) {
+    public Task(String description, TaskState taskState, Task fatherTask, Set<Employee> assignedEmployees, LocalDate createDate, LocalDate startDate, LocalDate endDate , Integer storyPoints, String necessarySkills) {
         this.description = description;
         this.taskState = taskState;
         this.fatherTask = fatherTask;
@@ -36,5 +38,9 @@ public class Task {
         this.startDate = startDate;
         this.endDate = endDate;
         this.storyPoints = storyPoints;
+        this.necessarySkills = necessarySkills;
+    }
+    public void addEmployee(Employee employee){
+        assignedEmployees.add(employee);
     }
 }
