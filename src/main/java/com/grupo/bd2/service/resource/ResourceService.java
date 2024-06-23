@@ -5,6 +5,6 @@ import com.grupo.bd2.dto.ResourceResponseDto;
 
 
 public interface ResourceService {
-    ResourceResponseDto getResourceById(Long id);
+    ResourceResponseDto getResourceById(String id);
     ResourceResponseDto createOrUpdateResource(ResourceRequestDto resourceRequestDto);
 }

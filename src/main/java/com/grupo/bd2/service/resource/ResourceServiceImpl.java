@@ -28,7 +28,7 @@ public class ResourceServiceImpl implements ResourceService{
     private final EmployeeRepository employeeRepository;
 
     @Override
-    public ResourceResponseDto getResourceById(Long id) {
+    public ResourceResponseDto getResourceById(String id) {
         return resourceRepository.findById(id)
                 .map(this::convertToDto)
                 .orElseThrow(()-> new NotFoundException("Resource not found"));

@@ -16,7 +16,7 @@ public class ResourceController {
     private final ResourceService resourceService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResourceResponseDto> getResourceById(@PathVariable Long id) {
+    public ResponseEntity<ResourceResponseDto> getResourceById(@PathVariable String id) {
         ResourceResponseDto resource = resourceService.getResourceById(id);
         return ResponseEntity.ok(resource);
     }

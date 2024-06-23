@@ -7,10 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-@Builder
 @Document
 public class Resource {
-    Long id;
+    String id;
     String description;
     Task task;
     Project project;

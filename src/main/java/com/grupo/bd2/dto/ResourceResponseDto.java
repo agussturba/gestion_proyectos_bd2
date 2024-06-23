@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record ResourceResponseDto(
-    Long id,
+    String id,
     String description,
     Long taskId,
     Long projectId,
