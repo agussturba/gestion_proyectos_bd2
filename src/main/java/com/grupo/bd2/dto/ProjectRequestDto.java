@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 @Builder
 public record ProjectRequestDto(
+        Long id,
         String name,
         String description,
         LocalDate startDate,

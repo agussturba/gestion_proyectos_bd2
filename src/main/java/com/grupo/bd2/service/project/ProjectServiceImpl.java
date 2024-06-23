@@ -14,13 +14,12 @@ import com.grupo.bd2.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
 
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 
-import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
@@ -47,7 +46,13 @@ public class ProjectServiceImpl implements ProjectService{
     public ProjectResponseDto createOrUpdateProject(ProjectRequestDto project) {
         List<Task> tasks = project.taskIds().stream().map(taskId -> taskRepository.findById(taskId).orElseThrow(() -> new NotFoundException("Task not Found"))).toList();
         List<Employee> employees = project.employeesIds().stream().map(employeeId -> employeeRepository.findById(employeeId).orElseThrow(() -> new NotFoundException("Employee not found"))).toList();
-        Project savedProject = new Project(project.name(), project.description(), project.startDate(), project.endDate(), project.isActive(), tasks,employees);
+        if (project.id() == null && !employees.stream().filter(employee -> projectRepository.findByEmployeesContainingAndIsActive(employee,true).isPresent()).toList().isEmpty()){
+            throw new NotFoundException("Employee is already in a active project");
+        }
+        Project savedProject = new Project(project.name(), project.description(), LocalDate.now(), project.endDate(), project.isActive(), tasks,employees);
+        if (project.id() != null){
+            savedProject.setId(project.id());
+        }
         return convertToDto(projectRepository.save(savedProject));
     }
     private ProjectResponseDto convertToDto(Project project) {
@@ -59,6 +64,7 @@ public class ProjectServiceImpl implements ProjectService{
                 .isActive(project.getIsActive())
                 .name(project.getName())
                 .startDate(project.getStartDate())
+                .employeesIds(project.getEmployees().stream().map(Employee::getId).toList())
                 .tasksIds(project.getTask().stream().map(Task::getId).toList())
                 .build();
     }

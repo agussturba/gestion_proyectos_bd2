@@ -3,7 +3,7 @@ package com.grupo.bd2.dto;
 import java.time.LocalDate;
 
 public record CommentRequestDto(
-    Long id,
+    String id,
     Long taskId,
     Long employeeId,
     String content,

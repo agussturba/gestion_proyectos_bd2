@@ -26,7 +26,7 @@ public class Project {
     Boolean isActive;
     @OneToMany
     List<Task> task;
-    @OneToMany
+    @ManyToMany
     List<Employee> employees;
 
     public Project(String name, String description, LocalDate startDate, LocalDate endDate, Boolean isActive, List<Task> task, List<Employee> employees) {

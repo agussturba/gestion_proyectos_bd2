@@ -5,12 +5,15 @@ import com.grupo.bd2.dto.CommentResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
 import com.grupo.bd2.model.Comment;
 
+import com.grupo.bd2.model.Employee;
+import com.grupo.bd2.model.Task;
 import com.grupo.bd2.repository.CommentRepository;
 import com.grupo.bd2.repository.EmployeeRepository;
 import com.grupo.bd2.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -37,20 +40,30 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponseDto createOrUpdateComment(CommentRequestDto comment) {
-        var task = taskRepository.findById(comment.taskId()).orElseThrow(() -> new NotFoundException("Task not found"));
-        var employee = employeeRepository.findById(comment.employeeId()).orElseThrow(() -> new NotFoundException("Employee not found"));
-        Comment comment1 = new Comment(task, employee, comment.content(), comment.createdAt());
+        Task task = null;
+        Employee employee = null;
+        if(comment.taskId() != null){
+            task = taskRepository.findById(comment.taskId()).orElseThrow(() -> new NotFoundException("Task not found"));
+        }
+        if(comment.employeeId() != null){
+            employee = employeeRepository.findById(comment.employeeId()).orElseThrow(() -> new NotFoundException("Employee not found"));
+        }
+        Comment comment1 = new Comment(task, employee, comment.content(), LocalDate.now());
+        if(comment.id() != null){
+            commentRepository.findById(comment.id()).orElseThrow(() -> new NotFoundException("Comment not found"));
+            comment1.setId(comment.id());
+        }
         return convertToDto(commentRepository.save(comment1));
     }
     @Override
-    public List<CommentResponseDto> getCommentsByTaskId(String taskId) {
+    public List<CommentResponseDto> getCommentsByTaskId(Long taskId) {
         return commentRepository.findByTaskId(taskId).stream()
                 .map(this::convertToDto)
                 .toList();
     }
 
     @Override
-    public List<CommentResponseDto> getCommentsByTaskIdAndEmployeeId(String taskId, String employeeId) {
+    public List<CommentResponseDto> getCommentsByTaskIdAndEmployeeId(Long taskId, Long employeeId) {
         return commentRepository.findByTaskIdAndEmployeeId(taskId, employeeId).stream()
                 .map(this::convertToDto)
                 .toList();
@@ -58,9 +71,11 @@ public class CommentServiceImpl implements CommentService {
     private CommentResponseDto convertToDto(Comment comment) {
         return CommentResponseDto
                 .builder()
+                .id(comment.getId())
                 .content(comment.getComment())
                 .employeeId(comment.getEmployee().getId())
                 .taskId(comment.getTask().getId())
+                .createdAt(comment.getDate())
                 .build();
     }
 }
