@@ -30,11 +30,11 @@ public class TaskController {
     public ResponseEntity<TaskResponseDto> updateTasK(@RequestBody TaskRequestDto task){
         return ResponseEntity.ok().body(taskService.createOrUpdateTask(task));
     }
-    @PutMapping("/task/{taskId}/employee/{employeeId}")
+    @PutMapping("{taskId}/employee/{employeeId}")
     public ResponseEntity<TaskResponseDto> assignEmployee(@PathVariable Long taskId,@PathVariable Long employeeId){
         return ResponseEntity.ok().body(taskService.asignEmployeeToTask(taskId,employeeId));
     }
-    @PutMapping("/task/{taskId}")
+    @PutMapping("/assign/{taskId}")
     public ResponseEntity<TaskResponseDto> automaticAssignEmployee(@PathVariable Long taskId){
         return ResponseEntity.ok().body(taskService.automaticalyAsignEmployeeToTask(taskId));
     }

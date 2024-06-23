@@ -16,6 +16,7 @@ public record ProjectResponseDto(
         LocalDate endDate,
         String createdAt,
         String updatedAt,
-        List<Long> tasksIds
+        List<Long> tasksIds,
+        List<Long> employeesIds
 ) {
 }

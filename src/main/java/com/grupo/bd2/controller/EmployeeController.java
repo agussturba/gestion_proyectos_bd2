@@ -1,9 +1,7 @@
 package com.grupo.bd2.controller;
 
 import com.grupo.bd2.dto.EmployeeResponseDto;
-import com.grupo.bd2.dto.ProjectResponseDto;
 import com.grupo.bd2.model.Employee;
-import com.grupo.bd2.model.Project;
 import com.grupo.bd2.service.employee.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -19,7 +19,8 @@ import java.util.Map;
 public class projectReportGenerator {
 
     public byte[] exportToPdf(List<Project> list) throws JRException, FileNotFoundException {
-        return JasperExportManager.exportReportToPdf(getReport(list));
+        JasperPrint report = getReport(list);
+        return JasperExportManager.exportReportToPdf(report);
     }
 
     public byte[] exportToXls(List<Project> list) throws JRException, FileNotFoundException {
@@ -34,12 +35,21 @@ public class projectReportGenerator {
     }
 
     private JasperPrint getReport(List<Project> list) throws FileNotFoundException, JRException {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("projectsData", new JRBeanCollectionDataSource(list));
-        
-        JasperPrint report = JasperFillManager.fillReport(JasperCompileManager.compileReport(
-                ResourceUtils.getFile("src/main/resources/projectReport.jrxml")
-                        .getAbsolutePath()), params, new JREmptyDataSource());
-        return report;
+        Map<String, Object> params = new HashMap<>();
+
+        // Prepare the JRBeanCollectionDataSource with your list of Project objects
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
+        params.put("petsData", dataSource);
+
+        // Load and compile the Jasper report template
+        String reportFilePath = ResourceUtils.getFile("src/main/resources/projectReport.jrxml").getAbsolutePath();
+        JasperReport jasperReport = JasperCompileManager.compileReport(reportFilePath);
+
+        // Fill the report with data
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JREmptyDataSource());
+
+        // Return the filled JasperPrint object
+        return jasperPrint;
     }
+
 }
