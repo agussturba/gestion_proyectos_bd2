@@ -15,5 +15,11 @@ public class Resource {
     Task task;
     Project project;
     Employee employee;
-    //TODO Ver que atributos entran en esta clase
+
+    public Resource(String description, Task task, Project project, Employee employee){
+        this.description = description;
+        this.task = task;
+        this.project = project;
+        this.employee = employee;
+    }
 }
