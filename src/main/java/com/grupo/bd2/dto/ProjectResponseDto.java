@@ -17,6 +17,9 @@ public record ProjectResponseDto(
         String createdAt,
         String updatedAt,
         List<Long> tasksIds,
-        List<Long> employeesIds
-) {
+        List<Long> employeesIds,
+        Integer totalTasks,
+        Integer doneTasks,
+        Float percentageEnded
+    ) {
 }

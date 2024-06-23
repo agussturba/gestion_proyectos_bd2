@@ -39,7 +39,7 @@ public class projectReportGenerator {
 
         // Prepare the JRBeanCollectionDataSource with your list of Project objects
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
-        params.put("petsData", dataSource);
+        params.put("projectData", dataSource);
 
         // Load and compile the Jasper report template
         String reportFilePath = ResourceUtils.getFile("src/main/resources/projectReport.jrxml").getAbsolutePath();

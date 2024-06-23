@@ -38,4 +38,18 @@ public class Project {
         this.task = task;
         this.employees = employees;
     }
+
+    public int getTotalTasks() {
+        return task.size();
+    }
+
+    public int getDoneTasks() {
+        return (int) task.stream()
+                .filter(t -> t.getTaskState() == TaskState.DONE)
+                .count();
+    }
+
+    public float getPercentageEnded(){
+        return (float) (getDoneTasks() / (float) getTotalTasks())*100;
+    }
 }

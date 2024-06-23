@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/project")
-public class ProjectController {
+public class    ProjectController {
     private final ProjectService projectService;
 
     @GetMapping

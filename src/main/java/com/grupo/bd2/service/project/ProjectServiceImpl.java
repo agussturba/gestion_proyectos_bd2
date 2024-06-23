@@ -3,7 +3,6 @@ package com.grupo.bd2.service.project;
 import com.grupo.bd2.model.Employee;
 import com.grupo.bd2.repository.EmployeeRepository;
 import com.grupo.bd2.util.projectReportGenerator;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo.bd2.dto.ProjectRequestDto;
 import com.grupo.bd2.dto.ProjectResponseDto;
 import com.grupo.bd2.exceptions.NotFoundException;
@@ -56,6 +55,7 @@ public class ProjectServiceImpl implements ProjectService{
         return convertToDto(projectRepository.save(savedProject));
     }
     private ProjectResponseDto convertToDto(Project project) {
+
         return ProjectResponseDto
                 .builder()
                 .description(project.getDescription())
@@ -66,6 +66,9 @@ public class ProjectServiceImpl implements ProjectService{
                 .startDate(project.getStartDate())
                 .employeesIds(project.getEmployees().stream().map(Employee::getId).toList())
                 .tasksIds(project.getTask().stream().map(Task::getId).toList())
+                .totalTasks(project.getTotalTasks())
+                .doneTasks(project.getDoneTasks())
+                .percentageEnded(project.getPercentageEnded())
                 .build();
     }
 
@@ -80,4 +83,5 @@ public class ProjectServiceImpl implements ProjectService{
     projectReportGenerator reportGenerator = new projectReportGenerator();
     return reportGenerator.exportToXls(projectRepository.findAll());
 }
+
 }
