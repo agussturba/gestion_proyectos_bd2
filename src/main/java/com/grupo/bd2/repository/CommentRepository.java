@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.grupo.bd2.model.Comment;
 
 public interface CommentRepository extends MongoRepository<Comment, String> {
-    List<Comment> findByTaskId(String taskId);
-    List<Comment> findByTaskIdAndEmployeeId(String taskId, String employeeId);
+    List<Comment> findByTaskId(Long taskId);
+    List<Comment> findByTaskIdAndEmployeeId(Long taskId, Long employeeId);
 }

@@ -9,6 +9,6 @@ public interface CommentService {
     List<CommentResponseDto> getAllComments();
     CommentResponseDto getCommentById(String id);
     CommentResponseDto createOrUpdateComment(CommentRequestDto comment);
-    List<CommentResponseDto> getCommentsByTaskId(String taskId);
-    List<CommentResponseDto> getCommentsByTaskIdAndEmployeeId(String taskId, String employeeId);
+    List<CommentResponseDto> getCommentsByTaskId(Long taskId);
+    List<CommentResponseDto> getCommentsByTaskIdAndEmployeeId(Long taskId, Long employeeId);
 }
