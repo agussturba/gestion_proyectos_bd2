@@ -1,12 +1,12 @@
 package com.grupo.bd2.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import com.grupo.bd2.dto.ProjectRequestDto;
 import com.grupo.bd2.dto.ProjectResponseDto;
 import com.grupo.bd2.service.project.ProjectService;
-import lombok.AllArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
 
 import org.springframework.http.ContentDisposition;
@@ -17,14 +17,10 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
-<<<<<<< HEAD
-@RequestMapping("/project")
-public class    ProjectController {
-=======
+@RequiredArgsConstructor
 @RequestMapping("/api/project")
 public class ProjectController {
->>>>>>> 865c75a82a9fba9bfb861c7b2590794679d6b575
+
     private final ProjectService projectService;
 
     @Operation(summary = "Get all projects")
